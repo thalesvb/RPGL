@@ -2,7 +2,6 @@ package romfile
 
 import (
 	"io/ioutil"
-	"path"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -49,7 +48,7 @@ func findRomsFromRootFolderInternal(rootPath string, extensions []string) []RPGL
 			romFiles = append(
 				romFiles,
 				findRomsFromRootFolderInternal(
-					path.Join(rootPath, baseName), extensions,
+					filepath.Join(rootPath, baseName), extensions,
 				)...,
 			)
 			continue

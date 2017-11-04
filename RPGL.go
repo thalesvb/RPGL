@@ -1,6 +1,6 @@
 package RPGL
 
-import "path"
+import "path/filepath"
 
 /*
 GameMetadata describes the minimal information required from a validation file to build a playlist.
@@ -44,7 +44,7 @@ func (r RomFile) string() string {
 FullPath returns the absolute path of this ROM.
 */
 func (r RomFile) FullPath() string {
-	return path.Join(r.Path, (r.Name + r.Extension))
+	return filepath.Join(r.Path, (r.Name + r.Extension))
 }
 
 /*
