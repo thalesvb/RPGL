@@ -1,3 +1,6 @@
+/*
+Package ra generates a Playlist for RetroArch system.
+*/
 package ra
 
 import (
@@ -8,7 +11,7 @@ import (
 )
 
 /*
-EntryRA represents a playlist entry of RetroArch.
+EntryRA represents a PlaylistEntry of RetroArch.
 */
 type EntryRA struct {
 	romPath  string
@@ -31,6 +34,9 @@ func (e EntryRA) SerializeEntry() string {
 	return strings.Join(aReturn, "\n")
 }
 
+/*
+PlaylistRA represents a Playlist of RetroArch.
+*/
 type PlaylistRA struct {
 	name    string
 	entries []RPGL.PlaylistEntry
