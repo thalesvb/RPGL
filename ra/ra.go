@@ -31,16 +31,16 @@ func (e EntryRA) SerializeEntry() string {
 	return strings.Join(aReturn, "\n")
 }
 
-type PlayslistRA struct {
+type PlaylistRA struct {
 	name    string
 	entries []RPGL.PlaylistEntry
 }
 
-func (p *PlayslistRA) AddEntry(e RPGL.PlaylistEntry) {
+func (p *PlaylistRA) AddEntry(e RPGL.PlaylistEntry) {
 	p.entries = append(p.entries, e)
 }
 
-func (p PlayslistRA) SerializePlaylist() string {
+func (p PlaylistRA) SerializePlaylist() string {
 
 	var buffer bytes.Buffer
 
@@ -73,7 +73,7 @@ func buildMamePlaylist(
 	corePath string,
 ) string {
 	var romEntry EntryRA
-	var playlist = PlayslistRA{
+	var playlist = PlaylistRA{
 		name: playlistName,
 	}
 	for _, rom := range roms {
