@@ -21,6 +21,9 @@ type EntryRA struct {
 	crc      string
 }
 
+/*
+SerializeEntry serializes a single entry following the RetroArch's Playlist file format.
+*/
 func (e EntryRA) SerializeEntry() string {
 	var crcLine string
 	crcLine = e.crc + "|crc"
@@ -42,10 +45,16 @@ type PlaylistRA struct {
 	entries []RPGL.PlaylistEntry
 }
 
+/*
+AddEntry adds a game entry into playlist.
+*/
 func (p *PlaylistRA) AddEntry(e RPGL.PlaylistEntry) {
 	p.entries = append(p.entries, e)
 }
 
+/*
+SerializePlaylist serializes the entire playlist following the RetroArch's Playlist file format.
+*/
 func (p PlaylistRA) SerializePlaylist() string {
 
 	var buffer bytes.Buffer
@@ -58,6 +67,9 @@ func (p PlaylistRA) SerializePlaylist() string {
 	return buffer.String()
 }
 
+/*
+BuildPlaylist generates a playlist file for RetroArch.
+*/
 func BuildPlaylist(
 	playlistName string,
 	validationFile RPGL.ValidationFile,
