@@ -65,13 +65,13 @@ func BuildPlaylist(
 	coreName string,
 	corePath string,
 ) string {
-	return buildMamePlaylist(playlistName, validationFile, roms, coreName, corePath)
+	return buildPlaylistInternal(playlistName, validationFile, roms, coreName, corePath)
 }
 
 /*
-BuildMamePlaylist generates a playlist file of MAME roms for RetroArch.
+buildPlaylistInternal generates a roms' playlist file for RA.
 */
-func buildMamePlaylist(
+func buildPlaylistInternal(
 	playlistName string,
 	validationFile RPGL.ValidationFile,
 	roms []RPGL.RomFile,
