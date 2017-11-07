@@ -12,12 +12,15 @@ import (
 	"github.com/thalesvb/RPGL"
 )
 
-type LogiqxDataFile struct {
-	Header LogiqxDataFileHeader `xml:"header"`
-	Games  []LogiqxGame         `xml:"game"`
+/*
+Representation of Logiqx XML data file.
+*/
+type logiqxDataFile struct {
+	Header logiqxDataFileHeader `xml:"header"`
+	Games  []logiqxGame         `xml:"game"`
 }
 
-func (df LogiqxDataFile) GetGameMetadata(
+func (df logiqxDataFile) GetGameMetadata(
 	name string,
 ) RPGL.GameMetadata {
 	for _, game := range df.Games {
@@ -27,39 +30,52 @@ func (df LogiqxDataFile) GetGameMetadata(
 	}
 	return nil
 }
-func (df LogiqxDataFile) Size() int {
+func (df logiqxDataFile) Size() int {
 	return len(df.Games)
 }
 
-type LogiqxDataFileHeader struct {
+/*
+Representation of the header tag.
+*/
+type logiqxDataFileHeader struct {
 	Name        string `xml:"name"`
 	Description string `xml:"description"`
 	Version     string `xml:"version"`
 }
 
-type LogiqxRom struct {
+/*
+Representation of a rom tag.
+*/
+type logiqxRom struct {
 	Name string `xml:"name,attr"`
 	Size int    `xml:"size,attr"`
 	CRC  string `xml:"crc,attr"`
 	SHA1 string `xml:"sha1,attr"`
 }
 
-type LogiqxGame struct {
+/*
+Representation of a game tag
+*/
+type logiqxGame struct {
 	Name        string      `xml:"name,attr"`
 	Description string      `xml:"description"`
 	CloneOf     string      `xml:"cloneof,attr"`
 	RomOf       string      `xml:"romof,attr"`
-	Roms        []LogiqxRom `xml:"rom"`
+	Roms        []logiqxRom `xml:"rom"`
 }
 
-func (g LogiqxGame) GetName() string {
+func (g logiqxGame) GetName() string {
 	return g.Name
 }
-func (g LogiqxGame) GetDescription() string {
+func (g logiqxGame) GetDescription() string {
 	return g.Description
 }
 
-func ParseLogiqxXmlFile(path string) RPGL.ValidationFile {
+/*
+ParseLogiqxXMLFile parses a XML file written with Logiqx schema and returns a
+ValidationFile which can be queried to fetch information to build a playlist.
+*/
+func ParseLogiqxXMLFile(path string) RPGL.ValidationFile {
 	var err error
 	xmlFile, err := os.Open(path)
 	if err != nil {
@@ -69,7 +85,7 @@ func ParseLogiqxXmlFile(path string) RPGL.ValidationFile {
 	defer xmlFile.Close()
 	xmlFileByte, _ := ioutil.ReadAll(xmlFile)
 
-	var dataFile LogiqxDataFile
+	var dataFile logiqxDataFile
 	err = xml.Unmarshal(xmlFileByte, &dataFile)
 	if err != nil {
 		println("Problem parsing validation file ", path)

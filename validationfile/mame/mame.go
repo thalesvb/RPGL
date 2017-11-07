@@ -9,5 +9,5 @@ import (
 )
 
 func ParseMameDatFile(path string) RPGL.ValidationFile {
-	return logiqx.ParseLogiqxXmlFile(path)
+	return logiqx.ParseLogiqxXMLFile(path)
 }
