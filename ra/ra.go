@@ -11,9 +11,9 @@ import (
 )
 
 /*
-EntryRA represents a PlaylistEntry of RetroArch.
+entryRA represents a PlaylistEntry of RetroArch.
 */
-type EntryRA struct {
+type entryRA struct {
 	romPath  string
 	romName  string
 	corePath string
@@ -24,7 +24,7 @@ type EntryRA struct {
 /*
 SerializeEntry serializes a single entry following the RetroArch's Playlist file format.
 */
-func (e EntryRA) SerializeEntry() string {
+func (e entryRA) SerializeEntry() string {
 	var crcLine string
 	crcLine = e.crc + "|crc"
 	aReturn := []string{
@@ -38,9 +38,9 @@ func (e EntryRA) SerializeEntry() string {
 }
 
 /*
-PlaylistRA represents a Playlist of RetroArch.
+playlistRA represents a Playlist of RetroArch.
 */
-type PlaylistRA struct {
+type playlistRA struct {
 	name    string
 	entries []RPGL.PlaylistEntry
 }
@@ -48,14 +48,14 @@ type PlaylistRA struct {
 /*
 AddEntry adds a game entry into playlist.
 */
-func (p *PlaylistRA) AddEntry(e RPGL.PlaylistEntry) {
+func (p *playlistRA) AddEntry(e RPGL.PlaylistEntry) {
 	p.entries = append(p.entries, e)
 }
 
 /*
 SerializePlaylist serializes the entire playlist following the RetroArch's Playlist file format.
 */
-func (p PlaylistRA) SerializePlaylist() string {
+func (p playlistRA) SerializePlaylist() string {
 
 	var buffer bytes.Buffer
 
@@ -90,8 +90,8 @@ func buildPlaylistInternal(
 	coreName string,
 	corePath string,
 ) string {
-	var romEntry EntryRA
-	var playlist = PlaylistRA{
+	var romEntry entryRA
+	var playlist = playlistRA{
 		name: playlistName,
 	}
 	for _, rom := range roms {
@@ -102,7 +102,7 @@ func buildPlaylistInternal(
 			continue
 		}
 
-		romEntry = EntryRA{
+		romEntry = entryRA{
 			romPath:  rom.FullPath(),
 			romName:  metadata.GetDescription(),
 			corePath: corePath,
