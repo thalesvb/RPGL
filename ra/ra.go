@@ -5,10 +5,28 @@ package ra
 
 import (
 	"bytes"
+	"flag"
 	"strings"
 
 	"github.com/thalesvb/RPGL"
 )
+
+/*
+flagsRA represents a PlaylistFlags for RetroArch.
+*/
+type flagsRA struct {
+	corePath string
+	coreName string
+}
+
+func (f *flagsRA) ParseFlags(args []string) {
+	fs := flag.NewFlagSet("RetroArch Playlist", flag.ContinueOnError)
+	fs.StringVar(&f.coreName, "CoreName", "", "LibRetro Core name")
+	fs.StringVar(&f.corePath, "CorePath", "", "LibRetro Core Path")
+	if err := fs.Parse(args); err != nil {
+		panic(err)
+	}
+}
 
 /*
 entryRA represents a PlaylistEntry of RetroArch.
@@ -74,10 +92,10 @@ func BuildPlaylist(
 	playlistName string,
 	validationFile RPGL.ValidationFile,
 	roms []RPGL.RomFile,
-	coreName string,
-	corePath string,
+	flags RPGL.PlaylistFlags,
 ) string {
-	return buildPlaylistInternal(playlistName, validationFile, roms, coreName, corePath)
+	typedFlags := flags.(*flagsRA)
+	return buildPlaylistInternal(playlistName, validationFile, roms, *typedFlags)
 }
 
 /*
@@ -87,8 +105,7 @@ func buildPlaylistInternal(
 	playlistName string,
 	validationFile RPGL.ValidationFile,
 	roms []RPGL.RomFile,
-	coreName string,
-	corePath string,
+	flags flagsRA,
 ) string {
 	var romEntry entryRA
 	var playlist = playlistRA{
@@ -105,12 +122,21 @@ func buildPlaylistInternal(
 		romEntry = entryRA{
 			romPath:  rom.FullPath(),
 			romName:  metadata.GetDescription(),
-			corePath: corePath,
-			coreName: coreName,
+			corePath: flags.corePath,
+			coreName: flags.coreName,
 			crc:      "0",
 		}
 		playlist.AddEntry(romEntry)
 	}
 
 	return playlist.SerializePlaylist()
+}
+
+/*
+ParseFlags parses RA playlist's specific flags.
+*/
+func ParseFlags(args []string) RPGL.PlaylistFlags {
+	flags := flagsRA{}
+	flags.ParseFlags(args)
+	return &flags
 }

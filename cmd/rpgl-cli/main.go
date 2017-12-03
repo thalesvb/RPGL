@@ -12,24 +12,23 @@ import (
 
 func main() {
 
-	romDir := flag.String("RomDir", "", "Root of ROM directory to be analysed")
-	valFile := flag.String("ValFile", "", "Validation file")
-	coreName := flag.String("CoreName", "", "LibRetro Core name")
-	corePath := flag.String("CorePath", "", "LibRetro Core Path")
-	playlistName := flag.String("PlaylistName", "", "")
+	flagCommon := flag.NewFlagSet("Common", flag.ContinueOnError)
+
+	romDir := flagCommon.String("RomDir", "", "Root of ROM directory to be analysed")
+	valFile := flagCommon.String("ValFile", "", "Validation file")
+	playlistName := flagCommon.String("PlaylistName", "", "")
 
 	var extensions = []string{".7z", ".zip"}
 
-	flag.Parse()
+	flagCommon.Parse(os.Args[1:7])
 	if *romDir == "" ||
 		*valFile == "" ||
-		*coreName == "" ||
-		*corePath == "" ||
 		*playlistName == "" {
-		flag.PrintDefaults()
+		flagCommon.PrintDefaults()
 		return
 	}
 
+	flags := ra.ParseFlags(os.Args[7:])
 	validationFile := mame.ParseMameDatFile(*valFile)
 	romFiles := romfile.FindRomsFromFolder(*romDir, extensions)
 	fmt.Printf("Found %d file(s) that match ROM pattern\n", len(romFiles))
@@ -39,8 +38,7 @@ func main() {
 		*playlistName,
 		validationFile,
 		romFiles,
-		*coreName,
-		*corePath,
+		flags,
 	)
 
 	f, err := os.Create(*playlistName)

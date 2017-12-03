@@ -21,6 +21,13 @@ type Playlist interface {
 }
 
 /*
+PlaylistFlags is implemented to fetch additional data to build a Playlist to as specific software.
+*/
+type PlaylistFlags interface {
+	ParseFlags(args []string)
+}
+
+/*
 PlaylistEntry is implemented by any concrete representation of a playlist's entry to a specific software.
 */
 type PlaylistEntry interface {
