@@ -21,7 +21,7 @@ type Playlist interface {
 }
 
 /*
-PlaylistEntry is implemented by any concrete representation of a playlist'e entry to a specific software.
+PlaylistEntry is implemented by any concrete representation of a playlist's entry to a specific software.
 */
 type PlaylistEntry interface {
 	SerializeEntry() string
