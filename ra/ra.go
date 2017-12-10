@@ -70,6 +70,14 @@ func (p *playlistRA) AddEntry(e RPGL.PlaylistEntry) {
 	p.entries = append(p.entries, e)
 }
 
+func (p playlistRA) GetEntries() []RPGL.PlaylistEntry {
+	return p.entries
+}
+
+func (p playlistRA) GetName() string {
+	return p.name
+}
+
 /*
 SerializePlaylist serializes the entire playlist following the RetroArch's Playlist file format.
 */
