@@ -34,7 +34,7 @@ func main() {
 	fmt.Printf("Found %d file(s) that match ROM pattern\n", len(romFiles))
 	fmt.Printf("Validation file contains %d game(s)\n", validationFile.Size())
 
-	playlistData := ra.BuildPlaylist(
+	playlist := ra.BuildPlaylist(
 		*playlistName,
 		validationFile,
 		romFiles,
@@ -45,7 +45,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	f.WriteString(playlistData)
+	f.Write(playlist.SerializePlaylist())
 	f.Sync()
 	f.Close()
 }

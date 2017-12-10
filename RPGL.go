@@ -16,7 +16,7 @@ A Playlist is implemented by any concrete representation of a playlist to a spec
 type Playlist interface {
 	GetName() string
 	GetEntries() []PlaylistEntry
-	SerializePlaylist() string
+	SerializePlaylist() []byte
 	AddEntry(PlaylistEntry)
 }
 

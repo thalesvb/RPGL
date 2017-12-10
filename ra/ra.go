@@ -81,7 +81,7 @@ func (p playlistRA) GetName() string {
 /*
 SerializePlaylist serializes the entire playlist following the RetroArch's Playlist file format.
 */
-func (p playlistRA) SerializePlaylist() string {
+func (p playlistRA) SerializePlaylist() []byte {
 
 	var buffer bytes.Buffer
 
@@ -90,7 +90,7 @@ func (p playlistRA) SerializePlaylist() string {
 		buffer.WriteString("\n" + p.name + "\n")
 	}
 	buffer.WriteString("\n")
-	return buffer.String()
+	return buffer.Bytes()
 }
 
 /*
@@ -101,7 +101,7 @@ func BuildPlaylist(
 	validationFile RPGL.ValidationFile,
 	roms []RPGL.RomFile,
 	flags RPGL.PlaylistFlags,
-) string {
+) RPGL.Playlist {
 	typedFlags := flags.(*flagsRA)
 	return buildPlaylistInternal(playlistName, validationFile, roms, *typedFlags)
 }
@@ -114,7 +114,7 @@ func buildPlaylistInternal(
 	validationFile RPGL.ValidationFile,
 	roms []RPGL.RomFile,
 	flags flagsRA,
-) string {
+) RPGL.Playlist {
 	var romEntry entryRA
 	var playlist = playlistRA{
 		name: playlistName,
@@ -137,7 +137,7 @@ func buildPlaylistInternal(
 		playlist.AddEntry(romEntry)
 	}
 
-	return playlist.SerializePlaylist()
+	return &playlist
 }
 
 /*
