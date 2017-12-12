@@ -94,22 +94,9 @@ func (p playlistRA) SerializePlaylist() []byte {
 }
 
 /*
-BuildPlaylist generates a playlist file for RetroArch.
+buildPlaylist generates a roms' playlist for RA.
 */
-func BuildPlaylist(
-	playlistName string,
-	validationFile RPGL.ValidationFile,
-	roms []RPGL.RomFile,
-	flags RPGL.PlaylistFlags,
-) RPGL.Playlist {
-	typedFlags := flags.(*flagsRA)
-	return buildPlaylistInternal(playlistName, validationFile, roms, *typedFlags)
-}
-
-/*
-buildPlaylistInternal generates a roms' playlist file for RA.
-*/
-func buildPlaylistInternal(
+func buildPlaylist(
 	playlistName string,
 	validationFile RPGL.ValidationFile,
 	roms []RPGL.RomFile,
@@ -143,8 +130,29 @@ func buildPlaylistInternal(
 /*
 ParseFlags parses RA playlist's specific flags.
 */
-func ParseFlags(args []string) RPGL.PlaylistFlags {
+func parseFlags(args []string) flagsRA {
 	flags := flagsRA{}
 	flags.ParseFlags(args)
-	return &flags
+	return flags
+}
+
+/*
+Build builds a RA playlist.
+*/
+func Build(
+	name string,
+	additionalArgs []string,
+	validationFile RPGL.ValidationFile,
+	roms []RPGL.RomFile,
+) RPGL.Playlist {
+	flags := parseFlags(additionalArgs)
+
+	playlist := buildPlaylist(
+		name,
+		validationFile,
+		roms,
+		flags,
+	)
+
+	return playlist
 }
