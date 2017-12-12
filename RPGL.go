@@ -21,7 +21,7 @@ type Playlist interface {
 }
 
 /*
-PlaylistFlags is implemented to fetch additional data to build a Playlist to as specific software.
+PlaylistFlags is implemented to fetch additional data to build a Playlist to a specific software.
 */
 type PlaylistFlags interface {
 	ParseFlags(args []string)
