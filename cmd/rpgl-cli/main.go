@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 
 	"github.com/thalesvb/RPGL/playlist"
@@ -38,8 +37,6 @@ func main() {
 
 	validationFile := mame.ParseMameDatFile(*valFile)
 	romFiles := romfile.FindRomsFromFolder(*romDir, extensions)
-	fmt.Printf("Found %d file(s) that match ROM pattern\n", len(romFiles))
-	fmt.Printf("Validation file contains %d game(s)\n", validationFile.Size())
 
 	playlist := playlist.Build(
 		*playlistSystem,

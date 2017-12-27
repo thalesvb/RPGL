@@ -5,11 +5,11 @@ package logiqx
 
 import (
 	"encoding/xml"
-	"fmt"
 	"io/ioutil"
 	"os"
 
 	"github.com/thalesvb/RPGL"
+	"github.com/thalesvb/RPGL/logger"
 )
 
 /*
@@ -28,6 +28,7 @@ func (df logiqxDataFile) GetGameMetadata(
 			return game
 		}
 	}
+	getLogger().Warning.Printf(`No metadata found for game file "%s".`, name)
 	return nil
 }
 func (df logiqxDataFile) Size() int {
@@ -71,15 +72,20 @@ func (g logiqxGame) GetDescription() string {
 	return g.Description
 }
 
+func getLogger() logger.Logger {
+	return logger.GetLogger("validationfile.logiqx")
+}
+
 /*
 ParseLogiqxXMLFile parses a XML file written with Logiqx schema and returns a
 ValidationFile which can be queried to fetch information to build a playlist.
 */
 func ParseLogiqxXMLFile(path string) RPGL.ValidationFile {
 	var err error
+	logger := getLogger()
 	xmlFile, err := os.Open(path)
 	if err != nil {
-		fmt.Println("Error opening file:", err)
+		logger.Error.Print("Error opening file:", err)
 		panic(err)
 	}
 	defer xmlFile.Close()
@@ -88,9 +94,10 @@ func ParseLogiqxXMLFile(path string) RPGL.ValidationFile {
 	var dataFile logiqxDataFile
 	err = xml.Unmarshal(xmlFileByte, &dataFile)
 	if err != nil {
-		println("Problem parsing validation file ", path)
+		logger.Error.Print("Problem parsing validation file ", path)
 		panic(err)
 	}
 
+	logger.Info.Printf("Validation file contains %d game(s)", len(dataFile.Games))
 	return dataFile
 }

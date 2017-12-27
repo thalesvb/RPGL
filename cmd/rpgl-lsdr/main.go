@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"strings"
 
 	"github.com/thalesvb/RPGL/romfile"
@@ -22,7 +21,7 @@ func main() {
 
 	romExtensions := strings.Split(*romExts, `;`)
 
-	romFiles := romfile.FindRomsFromFolder(*romDir, romExtensions)
-	fmt.Printf("Found %d file(s) that match ROM pattern\n", len(romFiles))
+	/*romFiles := */
+	romfile.FindRomsFromFolder(*romDir, romExtensions)
 
 }

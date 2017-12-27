@@ -6,6 +6,8 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/thalesvb/RPGL/logger"
+
 	"github.com/thalesvb/RPGL"
 )
 
@@ -70,6 +72,11 @@ func findRomsFromRootFolderInternal(rootPath string, extensions []string) []RPGL
 		}
 	}
 
+	getLogger().Info.Printf("Found %d file(s) that match ROM pattern\n", len(romFiles))
 	return romFiles
 
+}
+
+func getLogger() logger.Logger {
+	return logger.GetLogger("romfile")
 }

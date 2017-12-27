@@ -110,7 +110,6 @@ func buildPlaylist(
 
 		metadata := validationFile.GetGameMetadata(rom.Name)
 		if metadata == nil {
-			println(rom.Name)
 			continue
 		}
 
