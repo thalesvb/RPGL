@@ -6,7 +6,7 @@ import (
 
 	"github.com/thalesvb/RPGL/playlist"
 	"github.com/thalesvb/RPGL/romfile"
-	"github.com/thalesvb/RPGL/validationfile/mame"
+	"github.com/thalesvb/RPGL/validationfile"
 )
 
 func main() {
@@ -35,7 +35,7 @@ func main() {
 		return
 	}
 
-	validationFile := mame.ParseMameDatFile(*valFile)
+	validationFile := validationfile.Parse(*valFile, "MAME")
 	romFiles := romfile.FindRomsFromFolder(*romDir, extensions)
 
 	playlist := playlist.Build(

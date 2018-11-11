@@ -5,8 +5,8 @@ package logiqx
 
 import (
 	"encoding/xml"
+	"io"
 	"io/ioutil"
-	"os"
 
 	"github.com/thalesvb/RPGL"
 	"github.com/thalesvb/RPGL/logger"
@@ -80,21 +80,15 @@ func getLogger() logger.Logger {
 ParseLogiqxXMLFile parses a XML file written with Logiqx schema and returns a
 ValidationFile which can be queried to fetch information to build a playlist.
 */
-func ParseLogiqxXMLFile(path string) RPGL.ValidationFile {
+func ParseLogiqxXMLFile(file io.Reader) RPGL.ValidationFile {
 	var err error
 	logger := getLogger()
-	xmlFile, err := os.Open(path)
-	if err != nil {
-		logger.Error.Print("Error opening file:", err)
-		panic(err)
-	}
-	defer xmlFile.Close()
-	xmlFileByte, _ := ioutil.ReadAll(xmlFile)
+	xmlFileByte, _ := ioutil.ReadAll(file)
 
 	var dataFile logiqxDataFile
 	err = xml.Unmarshal(xmlFileByte, &dataFile)
 	if err != nil {
-		logger.Error.Print("Problem parsing validation file ", path)
+		logger.Error.Print("Problem parsing validation file")
 		panic(err)
 	}
 
