@@ -4,9 +4,14 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/thalesvb/RPGL"
 	"github.com/thalesvb/RPGL/validationfile/logiqx"
 )
 
+const emptyFile string = `
+<?xml version="1.0"?>
+<datafile />
+`
 const mockFile string = `
 <?xml version="1.0"?>
 <!DOCTYPE datafile PUBLIC "-//Logiqx//DTD ROM Management Datafile//EN" "http://www.logiqx.com/Dats/datafile.dtd">
@@ -23,17 +28,34 @@ const mockFile string = `
 </datafile>
 `
 
-func TestLogiqxParse(t *testing.T) {
+const (
+	mckGameFile string = "MOCK"
+	mckGameDesc string = "MOCK_DESC"
+)
 
-	file := logiqx.ParseLogiqxXMLFile(strings.NewReader(mockFile))
+func loadFile(data string) RPGL.ValidationFile {
+	return logiqx.Parse(strings.NewReader(data))
+}
+
+func TestEntryMissing(t *testing.T) {
+	file := loadFile(emptyFile)
+	entry := file.GetGameMetadata(mckGameFile)
+	if entry != nil {
+		t.Errorf("Oops")
+	}
+}
+
+func TestParse(t *testing.T) {
+
+	file := loadFile(mockFile)
 	if file.Size() != 1 {
 		t.Errorf("XML not parsed correctly")
 	}
-	meta := file.GetGameMetadata("MOCK")
-	if meta.GetName() != "MOCK" {
+	meta := file.GetGameMetadata(mckGameFile)
+	if meta.GetName() != mckGameFile {
 		t.Errorf("Oops!")
 	}
-	if meta.GetDescription() != "MOCK_DESC" {
+	if meta.GetDescription() != mckGameDesc {
 		t.Errorf("")
 	}
 }

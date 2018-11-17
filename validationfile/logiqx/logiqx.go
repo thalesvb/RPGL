@@ -77,10 +77,10 @@ func getLogger() logger.Logger {
 }
 
 /*
-ParseLogiqxXMLFile parses a XML file written with Logiqx schema and returns a
+Parse parses a XML file written with Logiqx schema and returns a
 ValidationFile which can be queried to fetch information to build a playlist.
 */
-func ParseLogiqxXMLFile(file io.Reader) RPGL.ValidationFile {
+func Parse(file io.Reader) RPGL.ValidationFile {
 	var err error
 	logger := getLogger()
 	xmlFileByte, _ := ioutil.ReadAll(file)

@@ -32,7 +32,7 @@ func Parse(path string, vKind VFKind) RPGL.ValidationFile {
 func parse(file io.Reader, vKind VFKind) RPGL.ValidationFile {
 	switch vKind {
 	case kindMame:
-		return mame.ParseMameDatFile(file)
+		return mame.Parse(file)
 	default:
 		panic(vKind)
 	}

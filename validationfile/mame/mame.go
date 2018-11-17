@@ -10,6 +10,6 @@ import (
 	"github.com/thalesvb/RPGL/validationfile/logiqx"
 )
 
-func ParseMameDatFile(file io.Reader) RPGL.ValidationFile {
-	return logiqx.ParseLogiqxXMLFile(file)
+func Parse(file io.Reader) RPGL.ValidationFile {
+	return logiqx.Parse(file)
 }
