@@ -6,6 +6,7 @@ import (
 
 	"github.com/thalesvb/RPGL"
 	"github.com/thalesvb/RPGL/validationfile/mame"
+	"github.com/thalesvb/RPGL/validationfile/mol"
 )
 
 /*
@@ -14,7 +15,8 @@ VFKind is a enumeration for structured files which contains validation data
 type VFKind string
 
 const (
-	kindMame VFKind = "MAME"
+	kindMame         VFKind = "MAME"
+	kindMyOwnLibrary VFKind = "MOL"
 )
 
 /*
@@ -33,6 +35,8 @@ func parse(file io.Reader, vKind VFKind) RPGL.ValidationFile {
 	switch vKind {
 	case kindMame:
 		return mame.Parse(file)
+	case kindMyOwnLibrary:
+		return mol.Parse(file)
 	default:
 		panic(vKind)
 	}
