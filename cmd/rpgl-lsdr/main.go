@@ -22,6 +22,6 @@ func main() {
 	romExtensions := strings.Split(*romExts, `;`)
 
 	/*romFiles := */
-	romfile.FindRomsFromFolder(*romDir, romExtensions)
+	romfile.FindFromFolder(*romDir, romExtensions)
 
 }

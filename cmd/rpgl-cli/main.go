@@ -36,7 +36,7 @@ func main() {
 	}
 
 	validationFile := validationfile.Parse(*valFile, "MAME")
-	romFiles := romfile.FindRomsFromFolder(*romDir, extensions)
+	romFiles := romfile.FindFromFolder(*romDir, extensions)
 
 	playlist := playlist.Build(
 		*playlistSystem,

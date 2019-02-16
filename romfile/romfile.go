@@ -1,3 +1,6 @@
+/*
+Package romfile provides a service to build a list of ROMs stored in a source device.
+*/
 package romfile
 
 import (
@@ -6,16 +9,15 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/thalesvb/RPGL/logger"
-
 	"github.com/thalesvb/RPGL"
+	"github.com/thalesvb/RPGL/logger"
 )
 
 /*
-FindRomsFromFolder tries to recursively match possible ROM files based on extensions list.
+FindFromFolder tries to recursively match possible ROM files based on an extensions list.
 It works like "find all files in this directory and it's subdirectiories with those extensions".
 */
-func FindRomsFromFolder(rootPath string, extensions []string) []RPGL.RomFile {
+func FindFromFolder(rootPath string, extensions []string) []RPGL.RomFile {
 	sort.Strings(extensions)
 
 	for i := range extensions {
@@ -23,7 +25,7 @@ func FindRomsFromFolder(rootPath string, extensions []string) []RPGL.RomFile {
 		*ext = strings.ToUpper(*ext)
 	}
 
-	return findRomsFromRootFolderInternal(
+	return findFromRootFolderInternal(
 		rootPath,
 		extensions,
 	)
@@ -32,7 +34,7 @@ func FindRomsFromFolder(rootPath string, extensions []string) []RPGL.RomFile {
 /*
 Internal implementation of FindRomsFromFolder function.
 */
-func findRomsFromRootFolderInternal(rootPath string, extensions []string) []RPGL.RomFile {
+func findFromRootFolderInternal(rootPath string, extensions []string) []RPGL.RomFile {
 	var aRomFile RPGL.RomFile
 	var romFiles []RPGL.RomFile
 	var baseName string
@@ -49,7 +51,7 @@ func findRomsFromRootFolderInternal(rootPath string, extensions []string) []RPGL
 		if fi.IsDir() == true {
 			romFiles = append(
 				romFiles,
-				findRomsFromRootFolderInternal(
+				findFromRootFolderInternal(
 					filepath.Join(rootPath, baseName), extensions,
 				)...,
 			)
